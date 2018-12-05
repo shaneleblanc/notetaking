@@ -12,6 +12,7 @@ import os
 from configurations import Configuration, values
 
 
+
 class Common(Configuration):
     # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
     BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -19,7 +20,7 @@ class Common(Configuration):
     LOGOUT_REDIRECT_URL = '/'
 
     # SECURITY WARNING: keep the secret key used in production secret!
-    SECRET_KEY = values.SecretValue()
+    SECRET_KEY = os.environ['SECRETKEY']
 
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = values.BooleanValue(False)
@@ -79,8 +80,8 @@ class Common(Configuration):
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
             'NAME': 'notetaking',
-            'USER': 'noteuser',
-            'PASSWORD': 'notepassword',
+            'USER': os.environ['DBUSER'],
+            'PASSWORD': os.environ['DBPASS'],
             'HOST': 'localhost',
             'PORT': '',
         }
@@ -164,3 +165,8 @@ class Production(Staging):
     The in-production settings.
     """
     pass
+
+
+import django_heroku
+
+django_heroku.settings(locals())
