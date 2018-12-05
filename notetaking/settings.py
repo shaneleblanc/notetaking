@@ -15,6 +15,8 @@ from configurations import Configuration, values
 class Common(Configuration):
     # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
     BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+    LOGIN_REDIRECT_URL = '/'
+    LOGOUT_REDIRECT_URL = '/'
 
     # SECURITY WARNING: keep the secret key used in production secret!
     SECRET_KEY = values.SecretValue()
@@ -36,7 +38,7 @@ class Common(Configuration):
 
         'django_extensions',
         'debug_toolbar',
-
+        'notetaking',
         'notetaking.users',
     ]
 
@@ -56,7 +58,7 @@ class Common(Configuration):
     TEMPLATES = [
         {
             'BACKEND': 'django.template.backends.django.DjangoTemplates',
-            'DIRS': [],
+            'DIRS': [os.path.join(BASE_DIR, 'templates')],
             'APP_DIRS': True,
             'OPTIONS': {
                 'context_processors': [

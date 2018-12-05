@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <h2>{{ hello }} {{ user.username }}</h2>
+        <div>
+            New Note:<br>
+        <form class="" action="." method="POST">
+            {% csrf_token %}
+            {{ form }}
+            <button class="btn btn-submit">Submit</button>
+        </form>
+        </div>
+        <div>
+        {% for note in notes %}
+
+                <h3>{{ note.title }} - {{ note.created }}
+                <a href="delete/{{ note.id }}"><button class="btn btn-delete">Delete</button></a>
+           </h3>
+        <p>{{ note.body | safe }}</p>
+        {% endfor %}
+        <p><a href="{% url 'logout' %}">Logout</a></p>
+    {% else %}
+        <p>{{ hello }}</p>
+        <a href="{% url 'login' %}">Login</a> | <a href="{% url 'register' %}">Register</a>
+    {% endif %}
+{% endblock %}
