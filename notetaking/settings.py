@@ -135,7 +135,7 @@ class Development(Common):
     """
     DEBUG = True
 
-    ALLOWED_HOSTS = ['whispering-falls-43215.herokuapp.com']
+    ALLOWED_HOSTS = ['*']
 
     INTERNAL_IPS = [
         '127.0.0.1'
@@ -169,3 +169,7 @@ class Production(Staging):
     The in-production settings.
     """
     pass
+
+
+import dj_database_url
+DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
