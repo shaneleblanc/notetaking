@@ -1,1 +1,1 @@
-web: gunicorn -b "0.0.0.0:$PORT" -w 3 notetaking.wsgi
+web: gunicorn bootcamp.wsgi --log-file -

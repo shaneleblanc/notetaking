@@ -20,7 +20,7 @@ class Common(Configuration):
     LOGOUT_REDIRECT_URL = '/'
 
     # SECURITY WARNING: keep the secret key used in production secret!
-    SECRET_KEY = os.environ['SECRETKEY']
+    SECRET_KEY = values.SecretValue()
 
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = values.BooleanValue(False)
@@ -118,9 +118,14 @@ class Common(Configuration):
 
     # Static files (CSS, JavaScript, Images)
     # https://docs.djangoproject.com/en/2.1/howto/static-files/
+    PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+    STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+
     STATIC_URL = '/static/'
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    STATICFILES_DIRS = (
+        os.path.join(PROJECT_ROOT, 'static'),
+    )
+    STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
     AUTH_USER_MODEL = 'users.User'
 
@@ -165,8 +170,3 @@ class Production(Staging):
     The in-production settings.
     """
     pass
-
-
-import django_heroku
-
-django_heroku.settings(locals())
